@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'package:cloud_cast/models/weather_data_model.dart';
+import 'package:cloud_cast/providers/theme_switch_provider.dart';
 import 'package:cloud_cast/screens/search_weather_screen.dart';
 import 'package:cloud_cast/services/weather_service.dart';
 import 'package:cloud_cast/widgets/weather_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -51,9 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Provider.of<ThemeSwitchProvider>(context, listen: false)
+                  .toggleAndStoreThemeStatus(
+                      Theme.of(context).brightness != Brightness.dark);
+            },
             icon: Icon(
-              Icons.dark_mode_rounded,
+              Theme.of(context).brightness == Brightness.dark
+                  ? Icons.light_mode_rounded
+                  : Icons.dark_mode_rounded,
               size: 32,
             ),
           ),
